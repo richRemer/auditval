@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Audited numeric value",
   "main": "auditval.js",
+  "repository": "git@github.com:richRemer/auditval.git",
   "directories": {
     "test": "test"
   },
