@@ -3,6 +3,7 @@ var auditval = require("../auditval.js"),
 
 describe("AuditedValue", function() {
     it("should be constructed with 'audited'", function() {
+        expect(auditval.AuditedValue.isPrototypeOf(auditval.audited())).to.be.ok();
         expect(auditval.AuditedValue.isPrototypeOf(auditval.audited(4))).to.be.ok();
     });
 
@@ -18,7 +19,7 @@ describe("AuditedValue", function() {
         expect(auditval.audited(42) - 40).to.be(2);
     });
 
-    describe("#adjust", function() {
+    describe(".adjust(*, Date, number)", function() {
         var value = auditval.audited(23);
         value.adjust("found the answer", new Date(), 42);
         value.adjust("assume control", new Date(), 2112);
@@ -41,7 +42,7 @@ describe("AuditedValue", function() {
         });
     });
 
-    describe("#audit", function() {
+    describe(".audit()", function() {
         it("should succeed for new audited value", function() {
             var value = auditval.audited(34);
             expect(value.audit.bind(value)).to.be.ok();            

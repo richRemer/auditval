@@ -95,11 +95,12 @@ function create(value, adjusts) {
 
 /**
  * Create an audited value.
- * @param {number} value
+ * @param {number} [value]
  */
 function audited(value) {
     var val = create(0, []);
-    val.adjust("initial value", new Date(), value);
+    if (arguments.length > 0)
+        val.adjust("initial value", new Date(), value);
     return val;
 }
 
