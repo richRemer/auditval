@@ -29,7 +29,7 @@ var AuditedValue = {
      * @return {boolean}
      */
     verifyRef: function(ref) {
-        return ref && typeof ref === "string";
+        return typeof ref === "string" && ref.length > 0;
     }
 };
 
@@ -81,6 +81,7 @@ function create(value, adjusts) {
         var audit = [],
             adjustment,
             balance = 0;
+
         for (var i in adjusts) {
             adjustment = adjusts[i];
             audit.push({
@@ -97,6 +98,13 @@ function create(value, adjusts) {
         if (balance != value) throw new AuditError();
         return audit;
     };
+
+    Object.defineProperty(auditedValue, "audit", {
+        configurable: false,
+        enumerable: true,
+        writable: false,
+        value: auditedValue.audit
+    });
 
     return auditedValue;
 }
