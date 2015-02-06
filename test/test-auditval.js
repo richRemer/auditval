@@ -42,6 +42,18 @@ describe("AuditedValue", function() {
         });
     });
 
+    describe(".adjust(*, number)", function() {
+        var value = auditval.audited();
+        value.adjust("increasing by 1,000", 1000);
+        
+        it("should use the current date if none is provided", function() {
+            var audit = value.audit();
+            
+            expect(audit).to.have.length(1);
+            expect(audit[0].date).to.be.a(Date);
+        });
+    });
+
     describe(".audit()", function() {
         it("should succeed for new audited value", function() {
             var value = auditval.audited(34);

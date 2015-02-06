@@ -54,13 +54,20 @@ function create(value, adjusts) {
     /**
      * Make an adjustment to the value.  Return the value after the adjustment.
      * @param {*} ref
-     * @param {Date} when
+     * @param {Date} [when]
      * @param {number} adjustment
      * @return {number}
      */
     auditedValue.adjust = function(ref, when, adjustment) {
-        if (!this.verifyRef(ref)) throw new AuditError("bad reference");
-        if (typeof adjustment !== "number") throw new Error("invalid argument; expected number");
+        if (arguments.length < 3)
+            adjustment = when, when = new Date();
+
+        if (!this.verifyRef(ref))
+            throw new AuditError("bad reference");
+
+        if (typeof adjustment !== "number")
+            throw new Error("invalid argument; expected number");
+
         adjusts.push({ref: ref, date: new Date(when.getTime()), value: adjustment});
         value += adjustment;
         return value;
@@ -77,11 +84,12 @@ function create(value, adjusts) {
         for (var i in adjusts) {
             adjustment = adjusts[i];
             audit.push({
-                "entry": parseInt(i) + 1,
-                "ref": adjustment.ref,
-                "previous balance": balance,
-                "adjustment": adjustment.value,
-                "balance": balance + adjustment.value
+                entry: parseInt(i) + 1,
+                ref: adjustment.ref,
+                forward: balance,
+                adjustment: adjustment.value,
+                balance: balance + adjustment.value,
+                date: adjustment.date
             });
             balance += adjustment.value;
         }
